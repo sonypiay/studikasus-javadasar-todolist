@@ -1,14 +1,33 @@
 public class AplikasiTodolist {
+
     public static String[] dataList = new String[10];
+    public static java.util.Scanner scanner = new java.util.Scanner(System.in);
 
     public static void main(String[] args) {
-        testDeleteTodoList();
+        viewShowTodoList();
+    }
+    
+    public static String input(String info) {
+        System.out.print(info + ": ");
+        String data = scanner.nextLine();
+
+        return data;
+    }
+
+    public static void testInput() {
+        var name = input("Nama");
+        System.out.println("Hi " + name);
+
+        var channel = input("Channel");
+        System.out.println(channel);
     }
 
     /**
      * Menampilkan data todolist
      */
     public static void showTodoList() {
+        System.out.println("TODOLIST");
+
         for(var i = 0; i < dataList.length; i++) {
             var todo = dataList[i];
             var no = i+1;
@@ -112,20 +131,88 @@ public class AplikasiTodolist {
      * Menampilkan view todolist
      */
     public static void viewShowTodoList() {
+        while (true) {
+            showTodoList();
 
+            System.out.println("MENU: ");
+            System.out.println("1. Tambah");
+            System.out.println("2. Hapus");
+            System.out.println("x. Keluar");
+
+            var input = input("Pilih");
+
+            if(input.equals("1")) {
+                viewAddTodoList();
+            } else if(input.equals("2")) {
+                viewDeleteTodoList();
+            } else if(input.equals("x") || input.equals("X")) {
+                System.out.println("Exit...");
+                break;
+            }else {
+                System.out.println("Pilihan tidak ada");
+            }
+        }
+    }
+
+    public static void testViewShowTodolist() {
+        addTodoList("satu");
+        addTodoList("dua");
+        addTodoList("tiga");
+        addTodoList("empat");
+        addTodoList("lima");
+
+        viewShowTodoList();
     }
 
     /**
      * Menampilkan view tambah todolist
      */
     public static void viewAddTodoList() {
+        System.out.println("MENAMBAH TODOLIST");
 
+        var todo = input("Todo (x jika batal)");
+
+        if(todo.equals("x")) {
+
+        } else {
+            addTodoList(todo);
+        }
+    }
+
+    public static void testViewAddTodoList() {
+        addTodoList("1");
+        addTodoList("2");
+        addTodoList("3");
+        viewAddTodoList();
+        showTodoList();
     }
 
     /**
      * Menampilkan view delete todolist
      */
     public static void viewDeleteTodoList() {
+        System.out.println("MENGHAPUS TODOLIST");
 
+        var number = input("Nomor yang dihapus (x jika batal)");
+
+        if(number.equals("x")) {
+
+        } else {
+            boolean success = deleteTodoList(Integer.valueOf(number));
+
+            if(!success) {
+                System.out.println("Gagal menghapus todolist: " + number);
+            }
+        }
+    }
+
+    public static void testViewDeleteTodoList() {
+        addTodoList("1");
+        addTodoList("2");
+        addTodoList("3");
+
+        showTodoList();
+        viewDeleteTodoList();
+        showTodoList();
     }
 }
